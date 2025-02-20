@@ -1,13 +1,5 @@
+import { languages } from "../utils/helpers";
 import { Languages, MessageProps } from "../utils/types";
-
-const languages: Languages = {
-  en: "English",
-  es: "Spanish",
-  pt: "Portuguese",
-  ru: "Russian",
-  tr: "Turkish",
-  fr: "French",
-};
 
 export default function Message({
   text,

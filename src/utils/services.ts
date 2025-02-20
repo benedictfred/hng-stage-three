@@ -1,5 +1,3 @@
-import { CustomError } from "./types";
-
 export const translateLanguage = async (
   srcLng: string,
   targetLng: string,
@@ -13,9 +11,10 @@ export const translateLanguage = async (
     const translatedText = await translator.translate(text);
     if (!translatedText) throw new Error("Couldn't translate. Try again");
     return translatedText;
-  } catch (err) {
-    const customError = err as CustomError;
-    throw new Error(customError.message);
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? error.message : "An unknown error occurred."
+    );
   }
 };
 
@@ -49,8 +48,9 @@ export const detectLanguage = async (text: string) => {
     } else {
       throw new Error("No language detected.");
     }
-  } catch (err) {
-    const customError = err as CustomError;
-    throw new Error(customError.message);
+  } catch (error) {
+    throw new Error(
+      error instanceof Error ? error.message : "An unknown error occurred."
+    );
   }
 };

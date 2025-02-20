@@ -1,27 +1,62 @@
 import { useState } from "react";
 import Message from "./components/Message";
 import TextInput from "./components/TextInput";
-import { MessageProps } from "./utils/types";
+import { Languages, MessageProps } from "./utils/types";
 import { detectLanguage, translateLanguage } from "./utils/services";
+import { languages } from "./utils/helpers";
 
 export default function App() {
   const [messages, setMessages] = useState<MessageProps[]>([]);
+  const [selectedLanguage, setSelectedLanguage] = useState("");
+  const [text, setText] = useState("");
+  const [errMsg, setErrMsg] = useState("");
 
   const handleSend = async (text: string) => {
     try {
+      setErrMsg("");
+
+      if (!text.trim()) {
+        throw new Error("Message cannot be empty.");
+      }
+
       const detectedLanguage = await detectLanguage(text);
+
+      if (!selectedLanguage) {
+        throw new Error("Please select a target language.");
+      }
+
+      if (selectedLanguage === detectedLanguage) {
+        throw new Error(
+          `The detected language is already ${
+            languages[detectedLanguage as keyof Languages]
+          }. Please choose a different target language.`
+        );
+      }
+
       setMessages((prev) => [
         ...prev,
         { text, isUser: true, detectedLanguage },
       ]);
-      const translation = await translateLanguage(detectedLanguage, "es", text);
-      if (translation)
-        setMessages((prev) => [
-          ...prev,
-          { isUser: false, translatedText: translation },
-        ]);
+
+      const translation = await translateLanguage(
+        detectedLanguage,
+        selectedLanguage,
+        text
+      );
+
+      if (!translation) {
+        throw new Error("Translation failed. Please try again.");
+      }
+
+      setMessages((prev) => [
+        ...prev,
+        { isUser: false, translatedText: translation },
+      ]);
+      setText("");
     } catch (error) {
-      console.log(error);
+      setErrMsg(
+        error instanceof Error ? error.message : "An unknown error occurred."
+      );
     }
   };
 
@@ -37,8 +72,17 @@ export default function App() {
             detectedLanguage={msg.detectedLanguage}
           />
         ))}
+        {errMsg && (
+          <div className="text-red-500 text-sm self-start">{errMsg}</div>
+        )}
       </div>
-      <TextInput onSend={handleSend} />
+      <TextInput
+        text={text}
+        setText={setText}
+        onSend={handleSend}
+        selectedLang={selectedLanguage}
+        onSelectLang={setSelectedLanguage}
+      />
     </div>
   );
 }

@@ -1,5 +1,9 @@
 export interface TextInputProps {
+  selectedLang: string;
+  text: string;
+  setText: (text: string) => void;
   onSend: (text: string) => void;
+  onSelectLang: (language: string) => void;
 }
 
 export interface MessageProps {
@@ -16,8 +20,4 @@ export interface Languages {
   ru: "Russian";
   tr: "Turkish";
   fr: "French";
-}
-
-export interface CustomError {
-  message: string;
 }

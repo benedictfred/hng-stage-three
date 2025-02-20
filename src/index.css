@@ -7,3 +7,14 @@
     box-sizing: border-box;
   }
 }
+
+@theme {
+  --color-primary-green: #1db954;
+  --color-secondary: #181818;
+  --color-secondary-text: #b3b3b3;
+}
+
+body {
+  background-color: #121212;
+  color: #ffffff;
+}

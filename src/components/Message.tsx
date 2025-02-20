@@ -12,7 +12,7 @@ export default function Message({
       <div>
         <p
           className={`p-3 rounded-lg max-w-sm shadow-md ${
-            isUser ? "bg-blue-500 text-white" : "bg-gray-200 text-black"
+            isUser ? "bg-green-500 text-white" : "bg-gray-200 text-black"
           }`}
         >
           {text || translatedText}

@@ -10,14 +10,14 @@ export default function TextInput({
   setText,
 }: TextInputProps) {
   return (
-    <div className="p-4 bg-white border-t flex items-center gap-3">
-      <div className="flex items-center gap-2">
-        <label htmlFor="language" className="font-medium text-gray-700">
+    <div className="p-4 border-t flex max-sm:flex-col items-center gap-3 max-sm:space-y-2">
+      <div className="flex items-center max-sm:w-full max-sm:justify-start gap-2">
+        <label htmlFor="language" className="font-medium text-[#B3B3B3]">
           🌍 Translate to:
         </label>
         <select
           id="language"
-          className="p-2 border rounded-lg focus:outline-none bg-gray-100 text-gray-700"
+          className="p-2 border rounded-lg focus:outline-none bg-secondary text-secondary-text"
           value={selectedLang}
           onChange={(e) => onSelectLang(e.target.value)}
         >
@@ -32,21 +32,20 @@ export default function TextInput({
         </select>
       </div>
 
-      {/* Text Input */}
-      <textarea
-        className="flex-1 p-3 border rounded-lg focus:outline-none resize-none bg-gray-50"
-        placeholder="Type your message..."
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-      ></textarea>
-
-      {/* Send Button */}
-      <button
-        className="ml-2 p-3 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition"
-        onClick={() => onSend(text)}
-      >
-        <IoSend size={24} />
-      </button>
+      <div className="flex items-center md:flex-1 max-sm:w-full">
+        <textarea
+          className="flex-1 p-3 bg-[#181818] text-white border border-gray-600 rounded-lg focus:outline-none resize-none"
+          placeholder="Type your message..."
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+        ></textarea>
+        <button
+          className="ml-2 p-3 bg-primary-green text-white rounded-lg outline-none"
+          onClick={() => onSend(text)}
+        >
+          <IoSend size={24} />
+        </button>
+      </div>
     </div>
   );
 }

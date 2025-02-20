@@ -31,7 +31,7 @@ export const detectLanguage = async (text: string) => {
       detector = await self.ai.languageDetector.create();
     } else {
       detector = await self.ai.languageDetector.create({
-        monitor(m) {
+        monitor(m: any) {
           m.addEventListener("downloadprogress", (e: ProgressEvent) => {
             console.log(`Downloaded ${e.loaded} of ${e.total} bytes.`);
           });
